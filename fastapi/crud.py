@@ -22,7 +22,7 @@ def create_user(db: Session, user: schemas.UserBase):
 def update_user(db: Session, user_id: int,  user: schemas.UserBase,):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     for key, value in user.model_dump().items():
-        # userとis_adminを再セット,model_dump()->辞書型に変換,items()->key,値を繰り返し
+        # userを再セット,model_dump()->辞書型に変換,items()->key,値を繰り返し
         setattr(db_user, key, value)
     db.commit()
     db.refresh(db_user)
