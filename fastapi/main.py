@@ -1,5 +1,4 @@
-from typing import List
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
 import crud
 from migration import models
