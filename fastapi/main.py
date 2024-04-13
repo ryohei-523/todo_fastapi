@@ -50,5 +50,11 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     return
 
 
+@app.post("/users/{user_id}/todos")
+def create_todo(user_id: int, todo: schemas.TodoBase,
+                db: Session = Depends(get_db)):
+    return crud.create_todo(db=db, user_id=user_id, todo=todo)
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

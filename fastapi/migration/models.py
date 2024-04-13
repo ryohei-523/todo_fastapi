@@ -1,7 +1,8 @@
 
 from datetime import datetime
 
-from sqlalchemy import create_engine, Column, String, Integer, Text, DateTime, Boolean, ForeignKey
+from sqlalchemy import create_engine, Column, String, Integer, Text, \
+    DateTime, Boolean, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from core.config import get_env
 
@@ -29,6 +30,6 @@ class Todo(BaseModel):
 
     title = Column(String(128), nullable=False)
     content = Column(Text, nullable=False)
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     created_at = Column(DateTime, default=datetime.now, nullable=False)

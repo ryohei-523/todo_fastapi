@@ -14,12 +14,18 @@ class User(UserBase):
         orm_mode = True
 
 
-class Todo(BaseModel):
-    id: int
-    user_id: int
+class TodoBase(BaseModel):
     title: str
     content: str
+
+
+class Todo(TodoBase):
+    id: int
+    user_id: int
     created_at: str
+
+    class Config:
+        orm_mode = True
 
 
 class UserUpdate(BaseModel):

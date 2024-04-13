@@ -33,3 +33,12 @@ def delete_user(db: Session, user_id: int):
     db_user = db.query(models.User).filter(models.User.id == user_id).first()
     db.delete(db_user)
     db.commit()
+
+
+def create_todo(db: Session, user_id: int, todo: schemas.TodoBase):
+    db_todo = models.Todo(
+        user_id=user_id, title=todo.title, content=todo.content)
+    db.add(db_todo)
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
