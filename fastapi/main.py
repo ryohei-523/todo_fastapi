@@ -33,7 +33,7 @@ def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db=db)
 
 
-@app.patch("/{users}")
+@app.patch("/users/{user_id}")
 def update_user(user_id: int, user: schemas.UserUpdate,
                 db: Session = Depends(get_db)):
     updated_user = crud.update_user(db=db, user_id=user_id, user=user)
@@ -42,6 +42,12 @@ def update_user(user_id: int, user: schemas.UserUpdate,
     # raise HTTPException(status_code=404, detail="User not found")
 
     return updated_user
+
+
+@app.delete("/users/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    crud.delete_user(db=db, user_id=user_id)
+    return
 
 
 if __name__ == "__main__":
