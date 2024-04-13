@@ -1,15 +1,13 @@
+from migration.models import BaseModel, Engine
+from alembic import context
+from logging.config import fileConfig
+from dotenv import load_dotenv
+from core.config import PROJECT_ROOT
+import os
 import sys
 # 相対パスでcoreディレクトリが参照できないので、読み取れるように
 sys.path = ['', '..'] + sys.path[1:]
 
-import os
-from core.config import PROJECT_ROOT
-from dotenv import load_dotenv
-
-from logging.config import fileConfig
-
-from alembic import context
-from migration.models import BaseModel, Engine
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -75,7 +73,7 @@ def run_migrations_online():
     with connectable.connect() as connection:
         context.configure(
             url=url,
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata
         )
 
