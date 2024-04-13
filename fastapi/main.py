@@ -56,5 +56,10 @@ def create_todo(user_id: int, todo: schemas.TodoBase,
     return crud.create_todo(db=db, user_id=user_id, todo=todo)
 
 
+@app.get("/users/{user_id}/todos")
+def get_todos(user_id: int, db: Session = Depends(get_db)):
+    return crud.get_todos(db=db, user_id=user_id)
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

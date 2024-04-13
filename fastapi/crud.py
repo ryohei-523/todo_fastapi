@@ -42,3 +42,8 @@ def create_todo(db: Session, user_id: int, todo: schemas.TodoBase):
     db.commit()
     db.refresh(db_todo)
     return db_todo
+
+
+def get_todos(db: Session, user_id: int, skip: int = 0, limit: int = 100):
+    return db.query(models.Todo).filter(models.User.id == user_id)\
+        .offset(skip).limit(limit).all()
