@@ -45,5 +45,22 @@ def create_todo(db: Session, user_id: int, todo: schemas.TodoBase):
 
 
 def get_todos(db: Session, user_id: int, skip: int = 0, limit: int = 100):
-    return db.query(models.Todo).filter(models.User.id == user_id)\
+    return db.query(models.Todo).filter(models.Todo.user_id == user_id)\
         .offset(skip).limit(limit).all()
+
+
+# def update_todo(db: Session, user_id: int, todo: schemas.TodoBase, todo_id: int):
+    db_todo = db.query(models.Todo).filter(models.User.id == user_id).all()
+    for key, value in todo.model_dump().items():
+        setattr(db_todo, key, value)
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
+
+
+def delete_todo(db: Session, user_id: int):
+    db_todo = db.query(models.Todo).filter(
+        models.Todo.user_id == user_id).all()
+    for delete_todo in db_todo:
+        db.delete(delete_todo)
+    db.commit()

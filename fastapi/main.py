@@ -61,5 +61,17 @@ def get_todos(user_id: int, db: Session = Depends(get_db)):
     return crud.get_todos(db=db, user_id=user_id)
 
 
+@app.patch("/users/{user_id}/todos")
+def update_todo(user_id: int, todo: schemas.TodoBase,
+                db: Session = Depends(get_db)):
+    return crud.update_todo(db=db, user_id=user_id, todo=todo)
+
+
+@app.delete("/users/{user_id}/todos")
+def delete_todo(user_id: int, db: Session = Depends(get_db)):
+    crud.delete_todo(db=db, user_id=user_id)
+    return
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
