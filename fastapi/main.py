@@ -33,6 +33,11 @@ def get_users(db: Session = Depends(get_db)):
     return crud.get_users(db=db)
 
 
+@app.get("/users/{user_id}")
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    return crud.get_user(db=db, user_id=user_id)
+
+
 @app.patch("/users/{user_id}")
 def update_user(user_id: int, user: schemas.UserUpdate,
                 db: Session = Depends(get_db)):
