@@ -66,10 +66,15 @@ def get_todos(user_id: int, db: Session = Depends(get_db)):
     return crud.get_todos(db=db, user_id=user_id)
 
 
-@app.patch("/users/{user_id}/todos")
-def update_todo(user_id: int, todo: schemas.TodoBase,
-                db: Session = Depends(get_db)):
-    return crud.update_todo(db=db, user_id=user_id, todo=todo)
+@app.get("/users/{user_id}/todos/{id}")
+def get_todo(user_id: int, id: int, db: Session = Depends(get_db)):
+    return crud.get_todo(db=db, user_id=user_id, todo_id=id)
+
+
+# @app.patch("/users/{user_id}/todos")
+# def update_todo(user_id: int, todo: schemas.TodoBase,
+#              db: Session = Depends(get_db)):
+#   return crud.update_todo(db=db, user_id=user_id, todo=todo)
 
 
 @app.delete("/users/{user_id}/todos")

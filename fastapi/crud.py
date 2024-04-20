@@ -66,3 +66,8 @@ def delete_todo(db: Session, user_id: int):
     for delete_todo in db_todo:
         db.delete(delete_todo)
     db.commit()
+
+
+def get_todo(db: Session, user_id: int, todo_id: int):
+    return db.query(models.Todo).filter(
+        models.Todo.user_id == user_id, models.Todo.id == todo_id).first()
