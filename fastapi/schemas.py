@@ -34,3 +34,6 @@ class Todo(TodoBase):
 
 class TodoUpdate(TodoBase):
     id: int
+
+    class Config:
+        orm_mode = True

@@ -53,14 +53,15 @@ def get_todos(db: Session, user_id: int, skip: int = 0, limit: int = 100):
 def update_todo(db: Session, user_id: int, todos: List[schemas.TodoUpdate]):
     target_ids = map(lambda todo: todo.id, todos)
     db_todo = db.query(models.Todo).filter(
-        models.Todo.user_id == user_id, models.Todo.id in target_ids).all()
+        models.Todo.user_id == user_id, models.Todo.id.in_(target_ids)).all()
     for update in db_todo:
-        target_todo: schemas.TodoUpdate = filter(
-            lambda todo: todo.id == update.id, todos)[0]
+        target_todo: schemas.TodoUpdate = list(filter(
+            lambda todo: todo.id == update.id, todos))[0]
         update.title = target_todo.title
         update.content = target_todo.content
     db.commit()
-    db.refresh(db_todo)
+    for todo in db_todo:
+        db.refresh(todo)
     return db_todo
 
 
