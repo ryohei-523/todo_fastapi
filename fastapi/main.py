@@ -5,6 +5,7 @@ from migration import models
 import schemas
 from database import SessionLocal, engine
 import uvicorn
+from typing import List
 
 models.BaseModel.metadata.create_all(bind=engine)
 app = FastAPI()
@@ -71,10 +72,10 @@ def get_todo(user_id: int, id: int, db: Session = Depends(get_db)):
     return crud.get_todo(db=db, user_id=user_id, todo_id=id)
 
 
-# @app.patch("/users/{user_id}/todos")
-# def update_todo(user_id: int, todo: schemas.TodoBase,
-#              db: Session = Depends(get_db)):
-#   return crud.update_todo(db=db, user_id=user_id, todo=todo)
+@app.patch("/users/{user_id}/todos/")
+def update_todo(user_id: int, todos: List[schemas.TodoUpdate],
+                db: Session = Depends(get_db)):
+    return crud.update_todo(db=db, user_id=user_id, todos=todos)
 
 
 @app.delete("/users/{user_id}/todos")

@@ -1,3 +1,4 @@
+from typing import List
 from sqlalchemy.orm import Session
 import schemas
 from migration import models
@@ -48,14 +49,17 @@ def get_todos(db: Session, user_id: int, skip: int = 0, limit: int = 100):
     return db.query(models.Todo).filter(models.Todo.user_id == user_id)\
         .offset(skip).limit(limit).all()
 
-# todo一括変更、うまくいかない
-# def update_todo(db: Session, user_id: int, todo: schemas.TodoBase):
+
+def update_todo(db: Session, user_id: int, todos: List[schemas.TodoUpdate]):
+    target_ids = map(lambda todo: todo.id, todos)
     db_todo = db.query(models.Todo).filter(
-        models.Todo.user_id == user_id).all()
+        models.Todo.user_id == user_id, models.Todo.id in target_ids).all()
     for update in db_todo:
-        for key, value in todo.model_dump().items():
-            setattr(update, key, value)
-        db.commit()
+        target_todo: schemas.TodoUpdate = filter(
+            lambda todo: todo.id == update.id, todos)[0]
+        update.title = target_todo.title
+        update.content = target_todo.content
+    db.commit()
     db.refresh(db_todo)
     return db_todo
 

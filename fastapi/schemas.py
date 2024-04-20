@@ -14,6 +14,10 @@ class User(UserBase):
         orm_mode = True
 
 
+class UserUpdate(BaseModel):
+    username: str
+
+
 class TodoBase(BaseModel):
     title: str
     content: str
@@ -28,5 +32,5 @@ class Todo(TodoBase):
         orm_mode = True
 
 
-class UserUpdate(BaseModel):
-    username: str
+class TodoUpdate(TodoBase):
+    id: int
